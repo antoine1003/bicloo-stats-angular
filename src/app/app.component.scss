@@ -1,0 +1,16 @@
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-gap: 16px;
+  grid-auto-flow: column;
+  align-items: center;
+  height: 100vh;
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .filters {
+      text-align: center;
+    }
+  }
+}

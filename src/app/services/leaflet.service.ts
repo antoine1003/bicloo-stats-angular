@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import { Station } from '../models/station.interface';
 import stationsJson from '../../assets/resources/stations.json';
 import { Marker } from 'leaflet';
-import { Subject } from 'rxjs';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +13,7 @@ export class LeafletService {
   stations: Station[] = stationsJson;
   markers: Marker[] = [];
 
-  private stationClicked = new Subject<Station>();
-
-  stationClicked$ = this.stationClicked.asObservable();
-
-  constructor() {}
+  constructor(private dataService: DataService) {}
 
   initMap(): void {
     this.map = L.map('leaflet', {
@@ -68,19 +64,16 @@ export class LeafletService {
         .on('click', (e) => {
           // @ts-ignore
           this.map.setView(e.latlng, 15);
-          this._sendStationClickedEvent(e.target.options.stationId);
+          this.dataService.setStation(
+            this.findStationById(e.target.options.stationId)
+          );
         });
       this.markers.push(marker);
       marker.addTo(this.map);
     });
   }
 
-  private _sendStationClickedEvent(stationId: string): void {
-    console.log(stationId);
-    this.stationClicked.next(this._findStationById(stationId));
-  }
-
-  private _findStationById(stationId: string): Station | null {
+  findStationById(stationId: string): Station | null {
     return this.stations.find((el) => el.station_id == stationId);
   }
 }

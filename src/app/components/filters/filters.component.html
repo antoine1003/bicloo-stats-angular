@@ -1,1 +1,12 @@
-<p>filters works!</p>
+<div class="filters">
+  <h5 nz-typography>Sélectionnez un jour de la semaine</h5>
+  <nz-radio-group [(ngModel)]="selectedDay" (ngModelChange)="onDayChanged($event)">
+  <label nz-radio-button nzValue="0">Lundi</label>
+  <label nz-radio-button nzValue="1">Mardi</label>
+  <label nz-radio-button nzValue="2">Mercredi</label>
+  <label nz-radio-button nzValue="3">Jeudi</label>
+  <label nz-radio-button nzValue="4">Vendredi</label>
+  <label nz-radio-button nzValue="5">Samedi</label>
+  <label nz-radio-button nzValue="6">Dimanche</label>
+</nz-radio-group>
+</div>

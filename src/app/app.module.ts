@@ -10,8 +10,12 @@ import { fr_FR } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import fr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 registerLocaleData(fr);
 
@@ -20,15 +24,25 @@ registerLocaleData(fr);
     AppComponent,
     LeafletComponent,
     ChartComponent,
-    FiltersComponent
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzMessageModule,
+    NzRadioModule,
+    NzTypographyModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: fr_FR }],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: NZ_I18N, useValue: fr_FR },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
